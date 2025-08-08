@@ -5,6 +5,7 @@ export interface IUrl extends Document {
   shortId: string;
   createdAt: Date;
   clicks: number;
+  userId: mongoose.Types.ObjectId;
 }
 
 const urlSchema = new mongoose.Schema<IUrl>({
@@ -12,6 +13,7 @@ const urlSchema = new mongoose.Schema<IUrl>({
   shortId: { type: String, required: true, unique: true },
   createdAt: { type: Date, default: Date.now },
   clicks: { type: Number, default: 0 },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 });
 
 export default mongoose.model<IUrl>('Url', urlSchema);

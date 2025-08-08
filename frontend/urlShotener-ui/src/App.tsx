@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import './App.css'
 import { Button, HStack, Input, Text } from '@chakra-ui/react'
 import axios from 'axios';
@@ -7,10 +7,6 @@ function App() {
 
   const [inputText, setInputText] = useState<undefined | string>();
   const [responseText, setResponseText] = useState<undefined | string>();
-
-  useEffect(() => {
-    
-  }, [])
 
   const handleConvertButtonClick = () => {
     axios.post("http://localhost:3000/shorten", { "longUrl": inputText}).then((response) => {

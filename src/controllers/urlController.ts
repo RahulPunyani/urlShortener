@@ -2,19 +2,24 @@ import { Request, Response } from 'express';
 import Url from '../models/Url';
 import { nanoid } from 'nanoid';
 
+interface AuthRequest extends Request {
+  userId?: string;
+}
+
 const baseUrl = 'http://localhost:3000';
 
-export const shortenUrl = async (req: Request, res: Response) => {
+export const shortenUrl = async (req: AuthRequest, res: Response) => {
   const { longUrl } = req.body;
+  const userId = req.userId;
 
-  if (!longUrl || !longUrl.startsWith('http')) {
-    return res.status(400).json({ error: 'Invalid URL' });
+  if (!longUrl || !longUrl.startsWith('http') || !userId) {
+    return res.status(400).json({ error: 'Invalid input' });
   }
 
   const shortId = nanoid(6);
 
   try {
-    const newUrl = await Url.create({ longUrl, shortId });
+    const newUrl = await Url.create({ longUrl, shortId, userId });
     res.status(201).json({ shortUrl: `${baseUrl}/${shortId}` });
   } catch (error) {
     res.status(500).json({ error: 'Server Error' });
