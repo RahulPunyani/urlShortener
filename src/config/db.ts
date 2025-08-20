@@ -1,11 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const connectDB = async () => {
+  const MONGO_URL = process.env.MONGO_URI;
+  console.log("MONGOOOO" + MONGO_URL);
   try {
-    await mongoose.connect("mongodb+srv://urlshortner_api:vVhyijd0e1rhSf0X@database-node.tegul.mongodb.net/urlshortener?retryWrites=true&w=majority&appName=database-node");
-    console.log('✅ MongoDB connected');
+    await mongoose.connect(MONGO_URL ?? "");
+    console.log("✅ MongoDB connected");
   } catch (err) {
-    console.error('❌ MongoDB connection failed:', err);
+    console.error("❌ MongoDB connection failed:", err);
     process.exit(1);
   }
 };
