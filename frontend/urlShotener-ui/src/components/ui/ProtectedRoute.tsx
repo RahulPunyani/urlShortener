@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from "react";
+import React, { useEffect, type ReactNode } from "react";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
 import { toaster } from "./toaster";

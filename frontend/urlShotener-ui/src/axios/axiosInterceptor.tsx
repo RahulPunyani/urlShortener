@@ -1,10 +1,9 @@
 import axios, {
-  type AxiosRequestConfig,
   type AxiosResponse,
+  type InternalAxiosRequestConfig,
   AxiosError,
 } from "axios";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router";
 
 const axiosInstance = axios.create({
   withCredentials: true,
@@ -12,12 +11,9 @@ const axiosInstance = axios.create({
 
 // Request Interceptor
 axiosInstance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = Cookies.get("token");
     if (token) {
-      if (!config.headers) {
-        config.headers = {};
-      }
       config.headers.Authorization = `Bearer ${token}`;
     } else {
       window.open("/login", "_self");
