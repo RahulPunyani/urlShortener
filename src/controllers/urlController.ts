@@ -6,8 +6,6 @@ interface AuthRequest extends Request {
   userId?: string;
 }
 
-const baseUrl = 'http://localhost:3000';
-
 export const shortenUrl = async (req: AuthRequest, res: Response) => {
   const { longUrl } = req.body;
   const userId = req.userId;
@@ -20,7 +18,10 @@ export const shortenUrl = async (req: AuthRequest, res: Response) => {
 
   try {
     const newUrl = await Url.create({ longUrl, shortId, userId });
-    res.status(201).json({ shortUrl: `${baseUrl}/${shortId}` });
+    const host = req.get("host");       // e.g. my-app.up.railway.app
+    const protocol = req.protocol;      // http or https
+    const domain = `${protocol}://${host}`;
+    res.status(201).json({ shortUrl: `${domain}/${shortId}` });
   } catch (error) {
     res.status(500).json({ error: 'Server Error' });
   }
